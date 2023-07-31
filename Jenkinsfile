@@ -36,7 +36,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    buildImage(env.IMAGE_NAME)
+                    buildDockerImage(env.IMAGE_NAME)
                     dockerLogin()
                     dockerPush(env.IMAGE_NAME)
 
