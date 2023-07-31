@@ -14,6 +14,11 @@ pipeline {
     tools {
         maven 'Maven'
     }
+
+    environment {
+        IMAGE_NAME = 'krisadaporn/demo-app:java-maven-2.0'
+    }
+
     stages {
         stage("init") {
             steps {
@@ -32,16 +37,26 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    buildImage()
+                    buildImage(env.IMAGE_NAME)
+                    dockerLogin()
+                    dockerPush(env.IMAGE_NAME)
+
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    echo "deploying"
-                    gv.deployApp()
-                }
+                    echo 'deploying docker image to EC2...'
+
+                    def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
+                    def ec2Instance = "ec2-user@18.170.67.222"
+
+                    sshagent(['ec2-server-key']) {
+                        sh "scp -o StrictHostKeyChecking=no server-cmds.sh ${ec2Instance}:/home/ec2-user"
+                        sh "scp -o StrictHostKeyChecking=no docker-compose.yaml ${ec2Instance}:/home/ec2-user"
+                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
+
             }
         }
     }   
