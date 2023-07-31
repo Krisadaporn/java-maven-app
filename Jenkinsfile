@@ -34,7 +34,7 @@ pipeline {
                 script {
                     echo "deploying"
                     gv.deployApp()
-                    def dockerCmd = 'docker run -p 3000:3080 -d krisadaporn/demo-app:1.0'
+                    def dockerCmd = 'docker run -p 3080:3080 -d krisadaporn/demo-app:1.0'
                     sshagent(['ec2-server-key']) {
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@18.170.67.222 ${dockerCmd}"
                     }
