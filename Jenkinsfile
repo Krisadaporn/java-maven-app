@@ -39,7 +39,6 @@ pipeline {
                     buildImage(env.IMAGE_NAME)
                     dockerLogin()
                     dockerPush(env.IMAGE_NAME)
-
                 }
             }
         }
