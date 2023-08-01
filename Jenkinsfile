@@ -15,7 +15,7 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = 'krisadaporn/demo-app:java-maven-2.0'
+        IMAGE_NAME = 'krisadaporn/demo-app:java-maven-1.0'
     }
 
     stages {
