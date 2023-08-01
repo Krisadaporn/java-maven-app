@@ -69,10 +69,9 @@ pipeline {
                         sh 'git config user.email "jenkins@example.com"'
                         sh 'git config user.name "Jenkins"'
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/krisadaporn/java-maven-app.git"
-                        sh "git checkout master"
                         sh 'git add .'
                         sh 'git commit -m "ci: version bump"'
-                        sh 'git push'
+                        sh 'git push origin HEAD:master'
                     }
                 }
             }
